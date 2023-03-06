@@ -3,17 +3,24 @@ import type { RouteObject } from 'react-router-dom';
 import Home from './pages/home';
 import Following from './pages/following';
 import NotFound from './pages/notFound';
+import Layout from './layout/Layout';
 
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Home />,
-    children: [],
-  },
-  {
-    path: '/following',
-    element: <Following />,
-    children: [],
+    element: <Layout />,
+    children: [
+      {
+        path: '',
+        element: <Home />,
+        children: [],
+      },
+      {
+        path: 'following',
+        element: <Following />,
+        children: [],
+      },
+    ],
   },
   {
     path: '*',
