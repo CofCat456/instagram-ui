@@ -1,11 +1,10 @@
-import './App.css';
+import { useRoutes } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <h1 className="p-4 pt-2 text-3xl font-bold underline">Hello world!</h1>
-    </div>
-  );
-}
+import routes from './routes';
+
+const App: React.FC = () => {
+  const element = useRoutes(routes);
+  return element;
+};
 
 export default App;
