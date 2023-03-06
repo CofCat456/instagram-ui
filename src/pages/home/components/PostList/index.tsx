@@ -1,5 +1,8 @@
+import Loading from '../../../../components/Loading';
 import User from '../../../../components/User';
 import Comment from './Comment';
+
+import { useGetPostsQuery } from '../../../../services/homeServices';
 
 interface Props {
   account: string;
@@ -37,31 +40,34 @@ const Post: React.FC<Props> = ({
   );
 };
 
-// TODO: delete mock data
-import db from '../../../../../db.json';
-
 const PostList: React.FC = () => {
-  const postList = db.posts;
+  const { data, isLoading } = useGetPostsQuery('all');
 
   return (
     <>
-      {postList?.map((post) => {
-        const { id, location, account, avatar, photo, likes, description, hashTags, createTime } =
-          post;
-        return (
-          <Post
-            location={location}
-            account={account}
-            avatar={avatar}
-            photo={photo}
-            likes={likes}
-            description={description}
-            hashTags={hashTags}
-            createTime={createTime}
-            key={id}
-          />
-        );
-      })}
+      {isLoading ? (
+        <div className="mt-20 flex w-full justify-center">
+          <Loading />
+        </div>
+      ) : (
+        data?.map((post) => {
+          const { id, location, account, avatar, photo, likes, description, hashTags, createTime } =
+            post;
+          return (
+            <Post
+              key={id}
+              location={location}
+              account={account}
+              avatar={avatar}
+              photo={photo}
+              likes={likes}
+              description={description}
+              hashTags={hashTags}
+              createTime={createTime}
+            />
+          );
+        })
+      )}
     </>
   );
 };
