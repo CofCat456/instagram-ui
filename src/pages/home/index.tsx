@@ -1,5 +1,5 @@
-import User from '../../components/User';
 import PostList from './components/PostList';
+import Profile from './components/Profile';
 import Story from './components/Story';
 
 const Home: React.FC = () => {
@@ -10,7 +10,7 @@ const Home: React.FC = () => {
         <PostList />
       </div>
       <div className="hidden lg:block lg:w-[424px]">
-        {/* <User avatar="/images/avatars/a1.png" account="user1" location="Taipei" showFollow={true} /> */}
+        <Profile />
       </div>
     </div>
   );
