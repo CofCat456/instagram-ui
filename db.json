@@ -120,7 +120,7 @@
       "id": 2,
       "location": "Singapore",
       "account": "max_999",
-      "isFollowing": false,
+      "isFollowing": true,
       "avatar": "/images/avatars/a1.jpg"
     },
     {

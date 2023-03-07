@@ -1,4 +1,8 @@
+import Loading from './Loading';
+
 import { useUpdateFollowMutation } from '../services/homeServices';
+
+import { Friend } from '../interface';
 
 interface Props {
   size?: 'medium' | 'small';
@@ -10,16 +14,14 @@ interface Props {
   id?: number;
 }
 
-const User: React.FC<Props> = ({
+const FollowElement: React.FC<Friend> = ({
   id = 1,
-  size = 'small',
-  showFollow = false,
   isFollowing = false,
   account = '',
   location = '',
   avatar = '',
 }) => {
-  const [updateFollow] = useUpdateFollowMutation();
+  const [updateFollow, { isLoading }] = useUpdateFollowMutation();
 
   const followClickHandler = async (id: number, isFollowing: boolean) => {
     const friend = {
@@ -30,9 +32,41 @@ const User: React.FC<Props> = ({
       isFollowing: !isFollowing,
     };
 
-    updateFollow({ id, friend });
+    try {
+      await updateFollow({ id, friend }).unwrap();
+    } catch (err) {
+      console.error('Failed to update the follow: ', err);
+    }
   };
+  return (
+    <>
+      {isLoading ? (
+        <div className="ml-auto">
+          <Loading size />
+        </div>
+      ) : (
+        <p
+          className={`${
+            isFollowing ? 'text-gray-700' : 'text-blue-400'
+          } ml-auto cursor-pointer text-xs font-bold`}
+          onClick={() => followClickHandler(id, isFollowing)}
+        >
+          {isFollowing ? 'FOLLOWING' : 'FOLLOW'}
+        </p>
+      )}
+    </>
+  );
+};
 
+const User: React.FC<Props> = ({
+  id = 1,
+  size = 'small',
+  showFollow = false,
+  isFollowing = false,
+  account = '',
+  location = '',
+  avatar = '',
+}) => {
   return (
     <div className="box-border flex h-[70px] items-center px-4">
       <div
@@ -50,14 +84,13 @@ const User: React.FC<Props> = ({
         <p className="text-xs text-gray-400">{location}</p>
       </div>
       {showFollow && (
-        <p
-          className={`${
-            isFollowing ? 'text-gray-700' : 'text-blue-400'
-          } ml-auto cursor-pointer text-xs font-bold`}
-          onClick={() => followClickHandler(id, isFollowing)}
-        >
-          {isFollowing ? 'FOLLOWING' : 'FOLLOW'}
-        </p>
+        <FollowElement
+          id={id}
+          account={account}
+          location={location}
+          avatar={avatar}
+          isFollowing={isFollowing}
+        />
       )}
     </div>
   );

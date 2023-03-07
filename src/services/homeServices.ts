@@ -7,6 +7,7 @@ const { VITE_SERVER_URL = '' } = import.meta.env;
 export const homeApi = createApi({
   reducerPath: 'homeApi',
   baseQuery: fetchBaseQuery({ baseUrl: VITE_SERVER_URL }),
+  tagTypes: ['Friend'],
   endpoints: (builder) => ({
     getPosts: builder.query<Post[], 'all'>({
       query: () => 'posts',
@@ -16,6 +17,7 @@ export const homeApi = createApi({
     }),
     getFriends: builder.query<Friend[], 'all'>({
       query: () => 'friends',
+      providesTags: ['Friend'],
     }),
     updateFollow: builder.mutation<Friend, { id: number; friend: Friend }>({
       query: ({ id, friend }) => ({
@@ -23,6 +25,7 @@ export const homeApi = createApi({
         method: 'PATCH',
         body: friend,
       }),
+      invalidatesTags: ['Friend'],
     }),
   }),
 });

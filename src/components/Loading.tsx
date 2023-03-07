@@ -1,7 +1,11 @@
-const Loading: React.FC = () => {
+interface Props {
+  size: boolean;
+}
+
+const Loading: React.FC<Props> = ({ size = false }) => {
   return (
     <svg
-      className="h-10 w-10 animate-spin text-gray-400"
+      className={`${size ? 'h-5 w-5' : 'h-10 w-10'}  animate-spin text-gray-400`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
