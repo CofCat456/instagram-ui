@@ -2,9 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { Friend, Post, Story } from '../interface';
 
+const { VITE_SERVER_URL = '' } = import.meta.env;
+
 export const homeApi = createApi({
   reducerPath: 'homeApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3004/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: VITE_SERVER_URL }),
   endpoints: (builder) => ({
     getPosts: builder.query<Post[], 'all'>({
       query: () => 'posts',
