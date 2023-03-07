@@ -1,5 +1,5 @@
 interface Props {
-  size: boolean;
+  size?: boolean;
 }
 
 const Loading: React.FC<Props> = ({ size = false }) => {
