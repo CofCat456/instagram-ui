@@ -1,3 +1,5 @@
+import { useUpdateFollowMutation } from '../services/homeServices';
+
 interface Props {
   size?: 'medium' | 'small';
   showFollow?: boolean;
@@ -9,13 +11,28 @@ interface Props {
 }
 
 const User: React.FC<Props> = ({
+  id = 1,
   size = 'small',
   showFollow = false,
   isFollowing = false,
-  account,
-  location,
-  avatar,
+  account = '',
+  location = '',
+  avatar = '',
 }) => {
+  const [updateFollow] = useUpdateFollowMutation();
+
+  const followClickHandler = async (id: number, isFollowing: boolean) => {
+    const friend = {
+      id,
+      location,
+      account,
+      avatar,
+      isFollowing: !isFollowing,
+    };
+
+    updateFollow({ id, friend });
+  };
+
   return (
     <div className="box-border flex h-[70px] items-center px-4">
       <div
@@ -37,6 +54,7 @@ const User: React.FC<Props> = ({
           className={`${
             isFollowing ? 'text-gray-700' : 'text-blue-400'
           } ml-auto cursor-pointer text-xs font-bold`}
+          onClick={() => followClickHandler(id, isFollowing)}
         >
           {isFollowing ? 'FOLLOWING' : 'FOLLOW'}
         </p>
